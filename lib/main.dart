@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bike_manager/views/home_view.dart';
 
 void main() {
-  runApp(const BikeManagerApp());
+  runApp(const ProviderScope(child: BikeManagerApp()));
 }
 
 class BikeManagerApp extends StatelessWidget {
@@ -14,27 +16,8 @@ class BikeManagerApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const HomeScreen(),
+      home: const HomeView(),
     );
   }
 }
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bike Manager'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to Bike Manager',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
+ 
