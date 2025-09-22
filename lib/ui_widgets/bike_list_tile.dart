@@ -12,7 +12,7 @@ class BikeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(bike.name),
-      subtitle: Text(formatBikeType(bike.type)),
+      subtitle: Text(formatBikeType(context, bike.type)),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );

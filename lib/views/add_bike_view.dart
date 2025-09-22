@@ -4,6 +4,7 @@ import 'package:bike_manager/utils/formatting.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddBikeView extends ConsumerStatefulWidget {
   const AddBikeView({super.key});
@@ -37,14 +38,15 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
 
   @override
   Widget build(BuildContext context) {
+  final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fahrrad hinzufügen'),
+        title: Text(l10n.addBike),
         actions: [
           TextButton.icon(
             onPressed: _onSave,
             icon: const Icon(Icons.save),
-            label: const Text('Speichern'),
+            label: Text(l10n.save),
           )
         ],
       ),
@@ -55,48 +57,48 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
           children: [
             TextFormField(
               controller: _nameCtrl,
-              decoration: const InputDecoration(
-                labelText: 'Name',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.name,
+                border: const OutlineInputBorder(),
               ),
               validator: (v) => (v == null || v.trim().isEmpty)
-                  ? 'Name ist erforderlich'
+                  ? l10n.requiredName
                   : null,
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<BikeType>(
               value: _type,
-              decoration: const InputDecoration(
-                labelText: 'Typ',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.type,
+                border: const OutlineInputBorder(),
               ),
               items: BikeType.values
                   .map((t) => DropdownMenuItem(
                         value: t,
-                        child: Text(formatBikeType(t)),
+                        child: Text(formatBikeType(context, t)),
                       ))
                   .toList(),
               onChanged: (v) => setState(() => _type = v),
-              validator: (v) => v == null ? 'Bitte Typ wählen' : null,
+              validator: (v) => v == null ? l10n.selectType : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _manufacturerCtrl,
-              decoration: const InputDecoration(
-                labelText: 'Hersteller (optional)',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.optionalManufacturer,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
             InkWell(
               onTap: _pickDate,
               child: InputDecorator(
-                decoration: const InputDecoration(
-                  labelText: 'Kaufdatum (optional)',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: l10n.optionalPurchaseDate,
+                  border: const OutlineInputBorder(),
                 ),
         child: Text(_purchaseDate == null
-          ? 'Nicht gesetzt'
+          ? l10n.notSet
           : formatDate(_purchaseDate!)),
               ),
             ),
@@ -107,16 +109,16 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
                 signed: false,
                 decimal: true,
               ),
-              decoration: const InputDecoration(
-                labelText: 'Kaufpreis (optional)',
-                hintText: 'z. B. 1999.99',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.optionalPurchasePrice,
+                hintText: l10n.priceHint,
+                border: const OutlineInputBorder(),
               ),
               validator: (v) {
                 if (v == null || v.trim().isEmpty) return null;
                 final parsed = _tryParsePrice(v.trim());
-                if (parsed == null) return 'Ungültiger Preis';
-                if (parsed < 0) return 'Preis darf nicht negativ sein';
+                if (parsed == null) return l10n.invalidPrice;
+                if (parsed < 0) return l10n.negativePrice;
                 return null;
               },
             ),

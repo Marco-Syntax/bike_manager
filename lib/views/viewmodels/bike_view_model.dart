@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/models/bike.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
   (ref) => BikeViewModel(),
@@ -13,20 +14,21 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
   void removeBike(Bike bike) => state = state.where((b) => b != bike).toList();
 
   Future<bool> confirmAndDelete(BuildContext context, Bike bike) async {
+  final l10n = AppLocalizations.of(context);
     final confirm = await showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('Eintrag löschen?'),
-            content: Text('"${bike.name}" wirklich löschen?'),
+            title: Text(l10n.confirmDeleteTitle),
+            content: Text(l10n.confirmDeleteMessage(bike.name)),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(false),
-                child: const Text('Abbrechen'),
+                child: Text(l10n.cancel),
               ),
               FilledButton(
                 style: FilledButton.styleFrom(backgroundColor: Colors.red),
                 onPressed: () => Navigator.of(ctx).pop(true),
-                child: const Text('Löschen'),
+                child: Text(l10n.delete),
               ),
             ],
           ),
@@ -37,7 +39,7 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
       removeBike(bike);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('"${bike.name}" gelöscht')),
+          SnackBar(content: Text(l10n.deletedSnack(bike.name))),
         );
       }
       return true;
