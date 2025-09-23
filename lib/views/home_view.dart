@@ -6,6 +6,7 @@ import 'package:bike_manager/views/details_view.dart';
 import 'package:bike_manager/ui_widgets/bike_card.dart';
 import 'package:bike_manager/views/add_bike_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/utils/dialogs.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -32,7 +33,14 @@ class HomeView extends ConsumerWidget {
                   key: ObjectKey(bike),
                   direction: DismissDirection.endToStart,
                   background: const _DeleteBackground(),
-                  confirmDismiss: (_) => viewModel.confirmAndDelete(context, bike),
+                  confirmDismiss: (_) async {
+                    final confirmed = await confirmDeleteDialog(context, bike.name);
+                    if (confirmed) {
+                      viewModel.removeBike(bike);
+                      if (context.mounted) showDeletedSnack(context, bike.name);
+                    }
+                    return confirmed;
+                  },
                   onDismissed: (_) {},
                   child: BikeCard(
                     bike: bike,
