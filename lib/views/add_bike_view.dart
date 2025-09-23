@@ -1,4 +1,3 @@
-import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/models/bike_type.dart';
 import 'package:bike_manager/utils/formatting.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
@@ -10,10 +9,10 @@ class AddBikeView extends ConsumerStatefulWidget {
   const AddBikeView({super.key});
 
   @override
-  ConsumerState<AddBikeView> createState() => _AddBikeViewState();
+  ConsumerState<AddBikeView> createState() => _AddBikeView();
 }
 
-class _AddBikeViewState extends ConsumerState<AddBikeView> {
+class _AddBikeView extends ConsumerState<AddBikeView> {
   late final BikeViewModel _bikeViewModel;
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
@@ -21,6 +20,17 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
   final _priceCtrl = TextEditingController();
   DateTime? _purchaseDate;
   BikeType? _type;
+  
+  bool get _isFormValid {
+    if (_nameCtrl.text.trim().isEmpty) return false;
+    if (_type == null) return false;
+    final priceText = _priceCtrl.text.trim();
+    if (priceText.isEmpty) return true;
+    final parsed = _bikeViewModel.tryParsePrice(priceText);
+    if (parsed == null) return false;
+    if (parsed < 0) return false;
+    return true;
+  }
 
   @override
   void initState() {
@@ -42,16 +52,11 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.addBike),
-        actions: [
-          TextButton.icon(
-            onPressed: _onSave,
-            icon: const Icon(Icons.save),
-            label: Text(l10n.save),
-          )
-        ],
       ),
       body: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onChanged: () => setState(() {}),
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
@@ -116,11 +121,20 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
               ),
               validator: (v) {
                 if (v == null || v.trim().isEmpty) return null;
-                final parsed = _tryParsePrice(v.trim());
+                final parsed = _bikeViewModel.tryParsePrice(v.trim());
                 if (parsed == null) return l10n.invalidPrice;
                 if (parsed < 0) return l10n.negativePrice;
                 return null;
               },
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: _isFormValid ? _onSave : null,
+                icon: const Icon(Icons.save),
+                label: Text(l10n.save),
+              ),
             ),
           ],
         ),
@@ -151,27 +165,16 @@ class _AddBikeViewState extends ConsumerState<AddBikeView> {
     final manufacturer = _manufacturerCtrl.text.trim().isEmpty
         ? null
         : _manufacturerCtrl.text.trim();
-    final price = _priceCtrl.text.trim().isEmpty
-        ? null
-        : _tryParsePrice(_priceCtrl.text.trim());
+    final priceInput = _priceCtrl.text;
 
-    final bike = Bike(
+    _bikeViewModel.addBikeFromForm(
       name: name,
       type: type,
       manufacturer: manufacturer,
       purchaseDate: _purchaseDate,
-      purchasePrice: price,
+      priceInput: priceInput,
     );
-
-    _bikeViewModel.addBike(bike);
     Navigator.of(context).pop();
   }
 
-  // formatting moved to utils/formatting.dart
-
-  double? _tryParsePrice(String v) {
-    // Accept comma or dot
-    final norm = v.replaceAll(',', '.');
-    return double.tryParse(norm);
-  }
 }

@@ -13,8 +13,10 @@ class DetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final viewModel = ref.read(bikeProvider.notifier);
-  final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.detailsTitle),

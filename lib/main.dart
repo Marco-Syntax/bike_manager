@@ -14,10 +14,9 @@ class BikeManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-  onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appTitle,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
+      debugShowCheckedModeBanner: false,
+      onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appTitle,
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -28,7 +27,6 @@ class BikeManagerApp extends StatelessWidget {
         Locale('en'),
         Locale('de'),
       ],
-      locale: const Locale('de'),
       home: const HomeView(),
     );
   }

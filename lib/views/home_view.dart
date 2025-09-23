@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/views/details_view.dart';
-import 'package:bike_manager/ui_widgets/bike_list_tile.dart';
+import 'package:bike_manager/ui_widgets/bike_card.dart';
 import 'package:bike_manager/views/add_bike_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,17 +23,18 @@ class HomeView extends ConsumerWidget {
       body: bikes.isEmpty
           ? const _EmptyPlaceholder()
           : ListView.separated(
+              padding: const EdgeInsets.all(12),
               itemCount: bikes.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
+              separatorBuilder: (_, __) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final Bike bike = bikes[index];
                 return Dismissible(
                   key: ObjectKey(bike),
                   direction: DismissDirection.endToStart,
                   background: const _DeleteBackground(),
-          confirmDismiss: (_) => viewModel.confirmAndDelete(context, bike),
+                  confirmDismiss: (_) => viewModel.confirmAndDelete(context, bike),
                   onDismissed: (_) {},
-                  child: BikeListTile(
+                  child: BikeCard(
                     bike: bike,
                     onTap: () {
                       Navigator.of(context).push(
