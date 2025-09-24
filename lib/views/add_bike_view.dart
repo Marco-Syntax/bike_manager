@@ -4,6 +4,7 @@ import 'package:bike_manager/utils/formatting.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bike_manager/utils/form_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddBikeView extends ConsumerStatefulWidget {
@@ -51,12 +52,7 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
   Widget build(BuildContext context) {
   final l10n = AppLocalizations.of(context);
   final theme = Theme.of(context);
-  final fieldFill = theme.colorScheme.surfaceContainerHighest.withAlpha((0.22 * 255).round());
-  final labelStyle = TextStyle(color: theme.colorScheme.onSurfaceVariant.withAlpha((0.9 * 255).round()));
-  final hintStyle = TextStyle(color: theme.colorScheme.onSurfaceVariant.withAlpha((0.7 * 255).round()));
-  final inputTextStyle = TextStyle(color: theme.colorScheme.onSurface);
-  final brandOrange = AppColors.orange;
-  final brandDarkGreen = AppColors.darkGreen;
+        final brandOrange = AppColors.orange;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.addBike),
@@ -70,19 +66,8 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
           children: [
             TextFormField(
               controller: _nameCtrl,
-              decoration: InputDecoration(
-                labelText: l10n.name,
-                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
-                filled: true,
-                fillColor: fieldFill,
-                hintStyle: hintStyle,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              ),
-              style: inputTextStyle,
+              decoration: FormStyles.filled(context, label: l10n.name),
+              style: FormStyles.input(context),
               validator: (v) => (v == null || v.trim().isEmpty)
                   ? l10n.requiredName
                   : null,
@@ -90,19 +75,8 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
             const SizedBox(height: 12),
             DropdownButtonFormField<BikeType>(
               value: _type,
-              decoration: InputDecoration(
-                labelText: l10n.type,
-                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
-                filled: true,
-                fillColor: fieldFill,
-                hintStyle: hintStyle,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              ),
-              style: inputTextStyle,
+              decoration: FormStyles.filled(context, label: l10n.type),
+              style: FormStyles.input(context),
               dropdownColor: theme.colorScheme.surface,
               menuMaxHeight: 300,
               items: BikeType.values
@@ -117,40 +91,15 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
             const SizedBox(height: 12),
             TextFormField(
               controller: _manufacturerCtrl,
-              decoration: InputDecoration(
-                labelText: l10n.optionalManufacturer,
-                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
-                filled: true,
-                fillColor: fieldFill,
-                hintStyle: hintStyle,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              ),
-              style: inputTextStyle,
+              decoration: FormStyles.filled(context, label: l10n.optionalManufacturer),
+              style: FormStyles.input(context),
             ),
             const SizedBox(height: 12),
             InkWell(
               onTap: _pickDate,
               child: InputDecorator(
-                decoration: InputDecoration(
-                  labelText: l10n.optionalPurchaseDate,
-                  labelStyle: labelStyle.copyWith(color: brandDarkGreen),
-                  filled: true,
-                  fillColor: fieldFill,
-                  hintStyle: hintStyle,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                ),
-                child: Text(
-                  _purchaseDate == null ? l10n.notSet : formatDate(_purchaseDate!),
-                  style: inputTextStyle,
-                ),
+                decoration: FormStyles.filled(context, label: l10n.optionalPurchaseDate),
+                child: Text(_purchaseDate == null ? l10n.notSet : formatDate(_purchaseDate!), style: FormStyles.input(context)),
               ),
             ),
             const SizedBox(height: 12),
@@ -160,20 +109,8 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
                 signed: false,
                 decimal: true,
               ),
-              decoration: InputDecoration(
-                labelText: l10n.optionalPurchasePrice,
-                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
-                hintText: l10n.priceHint,
-                hintStyle: hintStyle,
-                filled: true,
-                fillColor: fieldFill,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              ),
-                style: inputTextStyle,
+              decoration: FormStyles.filled(context, label: l10n.optionalPurchasePrice, hint: l10n.priceHint),
+              style: FormStyles.input(context),
               validator: (v) {
                 if (v == null || v.trim().isEmpty) return null;
                 final parsed = _bikeViewModel.tryParsePrice(v.trim());

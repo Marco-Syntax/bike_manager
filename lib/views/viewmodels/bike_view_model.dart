@@ -1,35 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/models/bike_type.dart';
-import 'package:bike_manager/core/bike_storage.dart';
+import 'package:bike_manager/core/bike_repository.dart';
 
 final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
   (ref) => BikeViewModel()..loadBikes(),
 );
 
 class BikeViewModel extends StateNotifier<List<Bike>> {
-  final BikeStorage _storage = BikeStorage();
+  final BikeRepository _repository;
 
-  BikeViewModel() : super([]);
+  BikeViewModel({BikeRepository? repository})
+      : _repository = repository ?? BikeRepository(),
+        super([]);
 
   Future<void> loadBikes() async {
-    final bikes = await _storage.loadBikes();
+    final bikes = await _repository.getAll();
     state = bikes;
   }
 
   Future<void> addBike(Bike bike) async {
-    state = [...state, bike];
-    await _storage.saveBikes(state);
+    await _repository.add(bike);
+    await loadBikes();
   }
 
   Future<void> removeBike(Bike bike) async {
-    state = state.where((b) => b.id != bike.id).toList();
-    await _storage.saveBikes(state);
+    await _repository.removeById(bike.id);
+    await loadBikes();
   }
 
   Future<void> updateBike(Bike oldBike, Bike newBike) async {
-    state = state.map((b) => (b.id == oldBike.id) ? newBike : b).toList();
-    await _storage.saveBikes(state);
+    await _repository.update(newBike);
+    await loadBikes();
   }
 
   double? tryParsePrice(String v) {

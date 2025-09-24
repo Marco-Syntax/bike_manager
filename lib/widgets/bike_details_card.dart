@@ -7,6 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bike_manager/widgets/bike_type_avatar.dart';
 import 'package:bike_manager/widgets/info_chip.dart';
 import 'package:bike_manager/utils/dialogs.dart';
+import 'package:bike_manager/utils/form_styles.dart';
+import 'package:bike_manager/utils/app_colors.dart';
 
 
 class BikeDetailsCard extends ConsumerWidget {
@@ -70,14 +72,16 @@ class BikeDetailsCard extends ConsumerWidget {
                     title: Text(l10n.optionalManufacturer),
                     content: TextField(
                       controller: controller,
-                      decoration: InputDecoration(hintText: l10n.manufacturer),
+                      decoration: FormStyles.filled(context, hint: l10n.manufacturer),
+                      style: FormStyles.input(context),
                     ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.of(ctx).pop(null),
-                        child: Text(l10n.cancel),
+                        child: Text(l10n.cancel, style: TextStyle(color: AppColors.darkGreen)),
                       ),
                       FilledButton(
+                        style: FilledButton.styleFrom(backgroundColor: AppColors.orange),
                         onPressed: () => Navigator.of(ctx).pop(controller.text.trim()),
                         child: Text(l10n.save),
                       ),
@@ -162,18 +166,17 @@ class BikeDetailsCard extends ConsumerWidget {
                           signed: false,
                           decimal: true,
                         ),
-                        decoration: InputDecoration(
-                          hintText: l10n.priceHint,
-                          errorText: errorText,
-                        ),
+                        decoration: FormStyles.filled(context, hint: l10n.priceHint).copyWith(errorText: errorText),
+                        style: FormStyles.input(context),
                         onChanged: validate,
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(ctx).pop(null),
-                          child: Text(l10n.cancel),
+                          child: Text(l10n.cancel, style: TextStyle(color: AppColors.darkGreen)),
                         ),
                         FilledButton(
+                          style: FilledButton.styleFrom(backgroundColor: AppColors.orange),
                           onPressed: errorText == null
                               ? () => Navigator.of(ctx).pop(controller.text.trim())
                               : null,
