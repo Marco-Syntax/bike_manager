@@ -30,3 +30,10 @@ void showDeletedSnack(BuildContext context, String itemName) {
     SnackBar(content: Text(l10n.deletedSnack(itemName))),
   );
 }
+
+void showUpdatedSnack(BuildContext context, String fieldLabel) {
+  final l10n = AppLocalizations.of(context);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(l10n.updatedSnack(fieldLabel))),
+  );
+}

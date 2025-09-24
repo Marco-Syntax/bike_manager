@@ -1,7 +1,7 @@
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/utils/formatting.dart';
 import 'package:flutter/material.dart';
-import 'package:bike_manager/ui_widgets/bike_type_avatar.dart';
+import 'package:bike_manager/widgets/bike_type_avatar.dart';
 
 class BikeCard extends StatelessWidget {
   const BikeCard({super.key, required this.bike, this.onTap});

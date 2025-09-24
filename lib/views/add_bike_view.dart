@@ -1,4 +1,5 @@
 import 'package:bike_manager/models/bike_type.dart';
+import 'package:bike_manager/utils/app_colors.dart';
 import 'package:bike_manager/utils/formatting.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,13 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
   @override
   Widget build(BuildContext context) {
   final l10n = AppLocalizations.of(context);
+  final theme = Theme.of(context);
+  final fieldFill = theme.colorScheme.surfaceContainerHighest.withAlpha((0.22 * 255).round());
+  final labelStyle = TextStyle(color: theme.colorScheme.onSurfaceVariant.withAlpha((0.9 * 255).round()));
+  final hintStyle = TextStyle(color: theme.colorScheme.onSurfaceVariant.withAlpha((0.7 * 255).round()));
+  final inputTextStyle = TextStyle(color: theme.colorScheme.onSurface);
+  final brandOrange = AppColors.orange;
+  final brandDarkGreen = AppColors.darkGreen;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.addBike),
@@ -64,8 +72,17 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               controller: _nameCtrl,
               decoration: InputDecoration(
                 labelText: l10n.name,
-                border: const OutlineInputBorder(),
+                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
+                filled: true,
+                fillColor: fieldFill,
+                hintStyle: hintStyle,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               ),
+              style: inputTextStyle,
               validator: (v) => (v == null || v.trim().isEmpty)
                   ? l10n.requiredName
                   : null,
@@ -75,8 +92,19 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               value: _type,
               decoration: InputDecoration(
                 labelText: l10n.type,
-                border: const OutlineInputBorder(),
+                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
+                filled: true,
+                fillColor: fieldFill,
+                hintStyle: hintStyle,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
+              style: inputTextStyle,
+              dropdownColor: theme.colorScheme.surface,
+              menuMaxHeight: 300,
               items: BikeType.values
                   .map((t) => DropdownMenuItem(
                         value: t,
@@ -91,8 +119,17 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               controller: _manufacturerCtrl,
               decoration: InputDecoration(
                 labelText: l10n.optionalManufacturer,
-                border: const OutlineInputBorder(),
+                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
+                filled: true,
+                fillColor: fieldFill,
+                hintStyle: hintStyle,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               ),
+              style: inputTextStyle,
             ),
             const SizedBox(height: 12),
             InkWell(
@@ -100,11 +137,20 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               child: InputDecorator(
                 decoration: InputDecoration(
                   labelText: l10n.optionalPurchaseDate,
-                  border: const OutlineInputBorder(),
+                  labelStyle: labelStyle.copyWith(color: brandDarkGreen),
+                  filled: true,
+                  fillColor: fieldFill,
+                  hintStyle: hintStyle,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                 ),
-        child: Text(_purchaseDate == null
-          ? l10n.notSet
-          : formatDate(_purchaseDate!)),
+                child: Text(
+                  _purchaseDate == null ? l10n.notSet : formatDate(_purchaseDate!),
+                  style: inputTextStyle,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -116,9 +162,18 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               ),
               decoration: InputDecoration(
                 labelText: l10n.optionalPurchasePrice,
+                labelStyle: labelStyle.copyWith(color: brandDarkGreen),
                 hintText: l10n.priceHint,
-                border: const OutlineInputBorder(),
+                hintStyle: hintStyle,
+                filled: true,
+                fillColor: fieldFill,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               ),
+                style: inputTextStyle,
               validator: (v) {
                 if (v == null || v.trim().isEmpty) return null;
                 final parsed = _bikeViewModel.tryParsePrice(v.trim());
@@ -130,7 +185,12 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
+              height: 52,
               child: FilledButton.icon(
+                style: FilledButton.styleFrom(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    backgroundColor: brandOrange,
+                  ),
                 onPressed: _isFormValid ? _onSave : null,
                 icon: const Icon(Icons.save),
                 label: Text(l10n.save),

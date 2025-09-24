@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/views/details_view.dart';
-import 'package:bike_manager/ui_widgets/bike_card.dart';
+import 'package:bike_manager/widgets/bike_card.dart';
 import 'package:bike_manager/views/add_bike_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bike_manager/utils/dialogs.dart';
+import 'package:bike_manager/utils/app_colors.dart';
 
 
 class HomeView extends ConsumerWidget {
@@ -54,7 +55,7 @@ class HomeView extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final Bike bike = bikes[index];
                       return Dismissible(
-                        key: ObjectKey(bike),
+                        key: ValueKey(bike.id),
                         direction: DismissDirection.endToStart,
                         background: const _DeleteBackground(),
                         confirmDismiss: (_) async {
@@ -84,6 +85,7 @@ class HomeView extends ConsumerWidget {
       ),
       floatingActionButton: bikes.isNotEmpty
           ? FloatingActionButton.extended(
+              backgroundColor: AppColors.orange,
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const AddBikeView()),
@@ -105,7 +107,7 @@ class _DeleteBackground extends StatelessWidget {
   Widget build(BuildContext context) {
   final l10n = AppLocalizations.of(context);
     return Container(
-      color: Colors.red,
+      color: AppColors.darkGreen,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.centerRight,
       child: Row(
@@ -145,20 +147,20 @@ class _AddBikePlaceholder extends StatelessWidget {
             const SizedBox(height: 24),
             GestureDetector(
               onTap: onTap,
-              child: Container(
+                child: Container(
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: Color(0xFFFF9800),
+                    color: AppColors.orange,
                     style: BorderStyle.solid,
                     width: 3,
                   ),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Center(
-                  child: Icon(Icons.add, size: 56, color: const Color.fromARGB(255, 2, 88, 83)),
+                  child: Icon(Icons.add, size: 56, color: AppColors.darkGreen),
                 ),
               ),
             ),

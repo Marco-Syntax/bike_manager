@@ -24,6 +24,7 @@
   "invalidPrice": "Invalid price",
   "negativePrice": "Price must not be negative",
   "deletedSnack": "\"{name}\" deleted",
+  "updatedSnack": "{field} updated",
   "save": "Save",
   "bikeTypeMountainbike": "Mountain bike",
   "bikeTypeCitybike": "City bike",

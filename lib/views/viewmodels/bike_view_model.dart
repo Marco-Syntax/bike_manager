@@ -1,29 +1,49 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/models/bike_type.dart';
+import 'package:bike_manager/core/bike_storage.dart';
 
 final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
-  (ref) => BikeViewModel(),
+  (ref) => BikeViewModel()..loadBikes(),
 );
 
 class BikeViewModel extends StateNotifier<List<Bike>> {
-  BikeViewModel() : super(const []);
+  final BikeStorage _storage = BikeStorage();
 
-  void addBike(Bike bike) => state = [...state, bike];
-  void removeBike(Bike bike) => state = state.where((b) => b != bike).toList();
+  BikeViewModel() : super([]);
+
+  Future<void> loadBikes() async {
+    final bikes = await _storage.loadBikes();
+    state = bikes;
+  }
+
+  Future<void> addBike(Bike bike) async {
+    state = [...state, bike];
+    await _storage.saveBikes(state);
+  }
+
+  Future<void> removeBike(Bike bike) async {
+    state = state.where((b) => b.id != bike.id).toList();
+    await _storage.saveBikes(state);
+  }
+
+  Future<void> updateBike(Bike oldBike, Bike newBike) async {
+    state = state.map((b) => (b.id == oldBike.id) ? newBike : b).toList();
+    await _storage.saveBikes(state);
+  }
 
   double? tryParsePrice(String v) {
     final norm = v.replaceAll(',', '.');
     return double.tryParse(norm);
   }
 
-  void addBikeFromForm({
+  Future<void> addBikeFromForm({
     required String name,
     required BikeType type,
     String? manufacturer,
     DateTime? purchaseDate,
     String? priceInput,
-  }) {
+  }) async {
     final price = (priceInput == null || priceInput.trim().isEmpty)
         ? null
         : tryParsePrice(priceInput.trim());
@@ -37,8 +57,8 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
       purchaseDate: purchaseDate,
       purchasePrice: price,
     );
-    addBike(bike);
+    await addBike(bike);
   }
-
 }
+
 
