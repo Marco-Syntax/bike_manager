@@ -14,13 +14,13 @@ class DetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  final viewModel = ref.read(bikeProvider.notifier);
-  final l10n = AppLocalizations.of(context);
-  final bikes = ref.watch(bikeProvider);
-  final currentBike = bikes.firstWhere(
-    (b) => b.id == bike.id,
-    orElse: () => bike,
-  );
+    final viewModel = ref.read(bikeProvider.notifier);
+    final l10n = AppLocalizations.of(context);
+    final bikes = ref.watch(bikeProvider);
+    final currentBike = bikes.firstWhere(
+      (b) => b.id == bike.id,
+      orElse: () => bike,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -30,14 +30,21 @@ class DetailsView extends ConsumerWidget {
             tooltip: l10n.delete,
             icon: const Icon(Icons.delete, color: AppColors.orange),
             onPressed: () async {
-              final confirmed = await confirmDeleteDialog(context, currentBike.name);
+              final confirmed = await confirmDeleteDialog(
+                context,
+                currentBike.name,
+              );
               if (confirmed) {
                 viewModel.removeBike(currentBike);
-                if (context.mounted) showDeletedSnack(context, currentBike.name);
-                if (context.mounted) Navigator.of(context).pop();
+                if (context.mounted) {
+                  showDeletedSnack(context, currentBike.name);
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
               }
             },
-          )
+          ),
         ],
       ),
       body: Column(
@@ -62,9 +69,7 @@ class DetailsView extends ConsumerWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(16),
-              children: [
-                BikeDetailsCard(bike: currentBike),
-              ],
+              children: [BikeDetailsCard(bike: currentBike)],
             ),
           ),
         ],

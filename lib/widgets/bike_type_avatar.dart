@@ -25,11 +25,7 @@ class BikeTypeAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: radius,
       backgroundColor: bg,
-      child: Icon(
-        bikeTypeIcon(type),
-        color: fg,
-        size: iconSize ?? radius,
-      ),
+      child: Icon(bikeTypeIcon(type), color: fg, size: iconSize ?? radius),
     );
   }
 }

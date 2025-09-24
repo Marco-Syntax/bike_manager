@@ -38,12 +38,32 @@ class Bike {
         orElse: () => BikeType.values.first,
       ),
       manufacturer: json['manufacturer'] as String?,
-      purchaseDate: json['purchaseDate'] != null
-          ? DateTime.parse(json['purchaseDate'])
-          : null,
-      purchasePrice: (json['purchasePrice'] != null)
-          ? (json['purchasePrice'] as num).toDouble()
-          : null,
+      purchaseDate:
+          json['purchaseDate'] != null
+              ? DateTime.parse(json['purchaseDate'])
+              : null,
+      purchasePrice:
+          (json['purchasePrice'] != null)
+              ? (json['purchasePrice'] as num).toDouble()
+              : null,
+    );
+  }
+
+  Bike copyWith({
+    String? id,
+    String? name,
+    BikeType? type,
+    String? manufacturer,
+    DateTime? purchaseDate,
+    double? purchasePrice,
+  }) {
+    return Bike(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      manufacturer: manufacturer ?? this.manufacturer,
+      purchaseDate: purchaseDate ?? this.purchaseDate,
+      purchasePrice: purchasePrice ?? this.purchasePrice,
     );
   }
 }

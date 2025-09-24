@@ -6,11 +6,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  testWidgets('can add a bike via the form and see it in the list', (tester) async {
+  testWidgets('can add a bike via the form and see it in the list', (
+    tester,
+  ) async {
     await tester.pumpWidget(const ProviderScope(child: BikeManagerApp()));
 
-  // Use a descendant context where Localizations are available (e.g., Scaffold)
-  final ctx = tester.element(find.byType(Scaffold));
+    // Use a descendant context where Localizations are available (e.g., Scaffold)
+    final ctx = tester.element(find.byType(Scaffold));
     final l10n = AppLocalizations.of(ctx);
 
     // Initially, the placeholder should be visible and no list items present
@@ -21,7 +23,7 @@ void main() {
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
-  expect(find.text(l10n.addBike), findsOneWidget);
+    expect(find.text(l10n.addBike), findsOneWidget);
 
     // Fill required fields: Name and Typ
     await tester.enterText(
@@ -32,11 +34,11 @@ void main() {
     // Open the dropdown for type and select an entry
     await tester.tap(find.byType(DropdownButtonFormField<BikeType>));
     await tester.pumpAndSettle();
-  await tester.tap(find.text(l10n.bikeTypeGravel).last);
+    await tester.tap(find.text(l10n.bikeTypeGravel).last);
     await tester.pumpAndSettle();
 
     // Save
-  await tester.tap(find.text(l10n.save));
+    await tester.tap(find.text(l10n.save));
     await tester.pumpAndSettle();
 
     // Back on the list: placeholder gone, new bike visible

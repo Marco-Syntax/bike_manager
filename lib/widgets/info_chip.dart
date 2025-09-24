@@ -31,8 +31,11 @@ class InfoChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final color = foregroundColor ?? theme.colorScheme.onSurfaceVariant;
-    final chipTextStyle = textStyle ?? theme.textTheme.bodySmall?.copyWith(color: color);
-    final bg = backgroundColor ?? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5);
+    final chipTextStyle =
+        textStyle ?? theme.textTheme.bodySmall?.copyWith(color: color);
+    final bg =
+        backgroundColor ??
+        theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5);
 
     return Container(
       padding: padding,

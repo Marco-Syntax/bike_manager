@@ -1,10 +1,10 @@
 import 'package:bike_manager/models/bike_type.dart';
-import 'package:bike_manager/utils/app_colors.dart';
 import 'package:bike_manager/utils/formatting.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/utils/form_styles.dart';
+import 'package:bike_manager/utils/button_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddBikeView extends ConsumerStatefulWidget {
@@ -22,7 +22,7 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
   final _priceCtrl = TextEditingController();
   DateTime? _purchaseDate;
   BikeType? _type;
-  
+
   bool get _isFormValid {
     if (_nameCtrl.text.trim().isEmpty) return false;
     if (_type == null) return false;
@@ -50,13 +50,10 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
 
   @override
   Widget build(BuildContext context) {
-  final l10n = AppLocalizations.of(context);
-  final theme = Theme.of(context);
-        final brandOrange = AppColors.orange;
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.addBike),
-      ),
+      appBar: AppBar(title: Text(l10n.addBike)),
       body: Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -68,9 +65,11 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               controller: _nameCtrl,
               decoration: FormStyles.filled(context, label: l10n.name),
               style: FormStyles.input(context),
-              validator: (v) => (v == null || v.trim().isEmpty)
-                  ? l10n.requiredName
-                  : null,
+              validator:
+                  (v) =>
+                      (v == null || v.trim().isEmpty)
+                          ? l10n.requiredName
+                          : null,
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<BikeType>(
@@ -79,27 +78,41 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               style: FormStyles.input(context),
               dropdownColor: theme.colorScheme.surface,
               menuMaxHeight: 300,
-              items: BikeType.values
-                  .map((t) => DropdownMenuItem(
-                        value: t,
-                        child: Text(formatBikeType(context, t)),
-                      ))
-                  .toList(),
+              items:
+                  BikeType.values
+                      .map(
+                        (t) => DropdownMenuItem(
+                          value: t,
+                          child: Text(formatBikeType(context, t)),
+                        ),
+                      )
+                      .toList(),
               onChanged: (v) => setState(() => _type = v),
               validator: (v) => v == null ? l10n.selectType : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _manufacturerCtrl,
-              decoration: FormStyles.filled(context, label: l10n.optionalManufacturer),
+              decoration: FormStyles.filled(
+                context,
+                label: l10n.optionalManufacturer,
+              ),
               style: FormStyles.input(context),
             ),
             const SizedBox(height: 12),
             InkWell(
               onTap: _pickDate,
               child: InputDecorator(
-                decoration: FormStyles.filled(context, label: l10n.optionalPurchaseDate),
-                child: Text(_purchaseDate == null ? l10n.notSet : formatDate(_purchaseDate!), style: FormStyles.input(context)),
+                decoration: FormStyles.filled(
+                  context,
+                  label: l10n.optionalPurchaseDate,
+                ),
+                child: Text(
+                  _purchaseDate == null
+                      ? l10n.notSet
+                      : formatDate(_purchaseDate!),
+                  style: FormStyles.input(context),
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -109,7 +122,11 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
                 signed: false,
                 decimal: true,
               ),
-              decoration: FormStyles.filled(context, label: l10n.optionalPurchasePrice, hint: l10n.priceHint),
+              decoration: FormStyles.filled(
+                context,
+                label: l10n.optionalPurchasePrice,
+                hint: l10n.priceHint,
+              ),
               style: FormStyles.input(context),
               validator: (v) {
                 if (v == null || v.trim().isEmpty) return null;
@@ -124,10 +141,7 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
               width: double.infinity,
               height: 52,
               child: FilledButton.icon(
-                style: FilledButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    backgroundColor: brandOrange,
-                  ),
+                style: ButtonStyles.primaryFilled(radius: 12),
                 onPressed: _isFormValid ? _onSave : null,
                 icon: const Icon(Icons.save),
                 label: Text(l10n.save),
@@ -159,9 +173,10 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
 
     final name = _nameCtrl.text.trim();
     final type = _type!;
-    final manufacturer = _manufacturerCtrl.text.trim().isEmpty
-        ? null
-        : _manufacturerCtrl.text.trim();
+    final manufacturer =
+        _manufacturerCtrl.text.trim().isEmpty
+            ? null
+            : _manufacturerCtrl.text.trim();
     final priceInput = _priceCtrl.text;
 
     _bikeViewModel.addBikeFromForm(
@@ -173,5 +188,4 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
     );
     Navigator.of(context).pop();
   }
-
 }

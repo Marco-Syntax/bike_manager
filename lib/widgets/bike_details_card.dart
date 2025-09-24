@@ -7,9 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bike_manager/widgets/bike_type_avatar.dart';
 import 'package:bike_manager/widgets/info_chip.dart';
 import 'package:bike_manager/utils/dialogs.dart';
-import 'package:bike_manager/utils/form_styles.dart';
-import 'package:bike_manager/utils/app_colors.dart';
-
 
 class BikeDetailsCard extends ConsumerWidget {
   const BikeDetailsCard({super.key, required this.bike});
@@ -41,10 +38,7 @@ class BikeDetailsCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        bike.name,
-                        style: theme.textTheme.titleLarge,
-                      ),
+                      Text(bike.name, style: theme.textTheme.titleLarge),
                       const SizedBox(height: 4),
                       Text(
                         formatBikeType(context, bike.type),
@@ -61,45 +55,26 @@ class BikeDetailsCard extends ConsumerWidget {
             _EditableDetailRow(
               icon: Icons.precision_manufacturing,
               label: l10n.manufacturer,
-              value: bike.manufacturer?.trim().isNotEmpty == true
-                  ? bike.manufacturer!.trim()
-                  : l10n.notSet,
+              value:
+                  bike.manufacturer?.trim().isNotEmpty == true
+                      ? bike.manufacturer!.trim()
+                      : l10n.notSet,
               onEdit: () async {
-                final controller = TextEditingController(text: bike.manufacturer ?? '');
-                final result = await showDialog<String?>(
+                final result = await showEditTextDialog(
                   context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: Text(l10n.optionalManufacturer),
-                    content: TextField(
-                      controller: controller,
-                      decoration: FormStyles.filled(context, hint: l10n.manufacturer),
-                      style: FormStyles.input(context),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(ctx).pop(null),
-                        child: Text(l10n.cancel, style: TextStyle(color: AppColors.darkGreen)),
-                      ),
-                      FilledButton(
-                        style: FilledButton.styleFrom(backgroundColor: AppColors.orange),
-                        onPressed: () => Navigator.of(ctx).pop(controller.text.trim()),
-                        child: Text(l10n.save),
-                      ),
-                    ],
-                  ),
+                  title: l10n.optionalManufacturer,
+                  initialText: bike.manufacturer ?? '',
+                  hint: l10n.manufacturer,
+                  saveLabel: l10n.save,
+                  cancelLabel: l10n.cancel,
                 );
                 if (result == null) return;
                 final newManufacturer = result.isEmpty ? null : result;
-                final updated = Bike(
-                  id: bike.id,
-                  name: bike.name,
-                  type: bike.type,
-                  manufacturer: newManufacturer,
-                  purchaseDate: bike.purchaseDate,
-                  purchasePrice: bike.purchasePrice,
-                );
+                final updated = bike.copyWith(manufacturer: newManufacturer);
                 await viewModel.updateBike(bike, updated);
-                if (context.mounted) showUpdatedSnack(context, l10n.manufacturer);
+                if (context.mounted) {
+                  showUpdatedSnack(context, l10n.manufacturer);
+                }
               },
             ),
             const SizedBox(height: 8),
@@ -117,16 +92,11 @@ class BikeDetailsCard extends ConsumerWidget {
                   lastDate: DateTime(now.year + 5),
                 );
                 if (picked == null) return;
-                final updated = Bike(
-                  id: bike.id,
-                  name: bike.name,
-                  type: bike.type,
-                  manufacturer: bike.manufacturer,
-                  purchaseDate: picked,
-                  purchasePrice: bike.purchasePrice,
-                );
+                final updated = bike.copyWith(purchaseDate: picked);
                 await viewModel.updateBike(bike, updated);
-                if (context.mounted) showUpdatedSnack(context, l10n.purchaseDate);
+                if (context.mounted) {
+                  showUpdatedSnack(context, l10n.purchaseDate);
+                }
               },
             ),
             const SizedBox(height: 8),
@@ -135,71 +105,41 @@ class BikeDetailsCard extends ConsumerWidget {
               label: l10n.purchasePrice,
               value: formatPrice(bike.purchasePrice, notSet: l10n.notSet),
               onEdit: () async {
-                final controller = TextEditingController(
-                    text: bike.purchasePrice != null ? bike.purchasePrice.toString() : '');
-                String? errorText;
-
-                final result = await showDialog<String?>(
+                final result = await showEditTextDialog(
                   context: context,
-                  builder: (ctx) => StatefulBuilder(builder: (ctx2, setState) {
-                    void validate(String v) {
-                      final trimmed = v.trim();
-                      if (trimmed.isEmpty) {
-                        setState(() => errorText = null);
-                        return;
-                      }
-                      final parsed = viewModel.tryParsePrice(trimmed);
-                      if (parsed == null) {
-                        setState(() => errorText = l10n.invalidPrice);
-                      } else if (parsed < 0) {
-                        setState(() => errorText = l10n.negativePrice);
-                      } else {
-                        setState(() => errorText = null);
-                      }
-                    }
-                    validate(controller.text);
-                    return AlertDialog(
-                      title: Text(l10n.optionalPurchasePrice),
-                      content: TextField(
-                        controller: controller,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          signed: false,
-                          decimal: true,
-                        ),
-                        decoration: FormStyles.filled(context, hint: l10n.priceHint).copyWith(errorText: errorText),
-                        style: FormStyles.input(context),
-                        onChanged: validate,
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(null),
-                          child: Text(l10n.cancel, style: TextStyle(color: AppColors.darkGreen)),
-                        ),
-                        FilledButton(
-                          style: FilledButton.styleFrom(backgroundColor: AppColors.orange),
-                          onPressed: errorText == null
-                              ? () => Navigator.of(ctx).pop(controller.text.trim())
-                              : null,
-                          child: Text(l10n.save),
-                        ),
-                      ],
-                    );
-                  }),
+                  title: l10n.optionalPurchasePrice,
+                  initialText:
+                      bike.purchasePrice != null
+                          ? bike.purchasePrice.toString()
+                          : '',
+                  hint: l10n.priceHint,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: false,
+                  ),
+                  validator: (v) {
+                    final trimmed = v.trim();
+                    if (trimmed.isEmpty) return null;
+                    final parsed = viewModel.tryParsePrice(trimmed);
+                    if (parsed == null) return l10n.invalidPrice;
+                    if (parsed < 0) return l10n.negativePrice;
+                    return null;
+                  },
+                  saveLabel: l10n.save,
+                  cancelLabel: l10n.cancel,
                 );
 
                 if (result == null) return;
                 final priceInput = result.trim();
-                final price = priceInput.isEmpty ? null : viewModel.tryParsePrice(priceInput);
-                final updated = Bike(
-                  id: bike.id,
-                  name: bike.name,
-                  type: bike.type,
-                  manufacturer: bike.manufacturer,
-                  purchaseDate: bike.purchaseDate,
-                  purchasePrice: price,
-                );
+                final price =
+                    priceInput.isEmpty
+                        ? null
+                        : viewModel.tryParsePrice(priceInput);
+                final updated = bike.copyWith(purchasePrice: price);
                 await viewModel.updateBike(bike, updated);
-                if (context.mounted) showUpdatedSnack(context, l10n.purchasePrice);
+                if (context.mounted) {
+                  showUpdatedSnack(context, l10n.purchasePrice);
+                }
               },
             ),
 
@@ -225,13 +165,14 @@ class BikeDetailsCard extends ConsumerWidget {
                   value: formatPrice(bike.purchasePrice, notSet: l10n.notSet),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 class _EditableDetailRow extends StatelessWidget {
   const _EditableDetailRow({
     required this.icon,
@@ -285,5 +226,3 @@ class _EditableDetailRow extends StatelessWidget {
     );
   }
 }
-
-

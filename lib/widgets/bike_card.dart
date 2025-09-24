@@ -12,7 +12,7 @@ class BikeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 1,
@@ -32,14 +32,13 @@ class BikeCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          bike.name,
-                          style: theme.textTheme.titleMedium,
-                        ),
+                        Text(bike.name, style: theme.textTheme.titleMedium),
                         const SizedBox(height: 4),
                         Text(
                           formatBikeType(context, bike.type),
-                          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),

@@ -4,15 +4,16 @@ import 'package:bike_manager/models/bike_type.dart';
 import 'package:bike_manager/core/bike_repository.dart';
 
 final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
-  (ref) => BikeViewModel()..loadBikes(),
+  (ref) =>
+      BikeViewModel(repository: ref.read(bikeRepositoryProvider))..loadBikes(),
 );
 
 class BikeViewModel extends StateNotifier<List<Bike>> {
   final BikeRepository _repository;
 
   BikeViewModel({BikeRepository? repository})
-      : _repository = repository ?? BikeRepository(),
-        super([]);
+    : _repository = repository ?? BikeRepository(),
+      super([]);
 
   Future<void> loadBikes() async {
     final bikes = await _repository.getAll();
@@ -46,21 +47,21 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
     DateTime? purchaseDate,
     String? priceInput,
   }) async {
-    final price = (priceInput == null || priceInput.trim().isEmpty)
-        ? null
-        : tryParsePrice(priceInput.trim());
+    final price =
+        (priceInput == null || priceInput.trim().isEmpty)
+            ? null
+            : tryParsePrice(priceInput.trim());
 
     final bike = Bike(
       name: name.trim(),
       type: type,
-      manufacturer: (manufacturer != null && manufacturer.trim().isNotEmpty)
-          ? manufacturer.trim()
-          : null,
+      manufacturer:
+          (manufacturer != null && manufacturer.trim().isNotEmpty)
+              ? manufacturer.trim()
+              : null,
       purchaseDate: purchaseDate,
       purchasePrice: price,
     );
     await addBike(bike);
   }
 }
-
-

@@ -1,9 +1,1 @@
-enum BikeType {
-  mountainbike,
-  citybike,
-  trekking,
-  gravel,
-  race,
-  eBike,
-  other,
-}
+enum BikeType { mountainbike, citybike, trekking, gravel, race, eBike, other }
