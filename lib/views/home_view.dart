@@ -14,8 +14,8 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bikes = ref.watch(bikeProvider);
     final viewModel = ref.read(bikeProvider.notifier);
+    final bikes = ref.watch(bikeProvider);
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(

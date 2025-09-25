@@ -21,8 +21,8 @@ void main() {
         type: BikeType.mountainbike,
       );
 
-      await repo.add(bike);
-      final all = await repo.getAll();
+      await repo.addBike(bike);
+      final all = await repo.getAllBikes();
       expect(all, hasLength(1));
       expect(all.first.id, equals('a'));
     });
@@ -32,14 +32,14 @@ void main() {
       final bike1 = Bike(id: '1', name: 'One', type: BikeType.citybike);
       final bike2 = Bike(id: '2', name: 'Two', type: BikeType.gravel);
 
-      await repo.add(bike1);
-      await repo.add(bike2);
+      await repo.addBike(bike1);
+      await repo.addBike(bike2);
 
-      var all = await repo.getAll();
+      var all = await repo.getAllBikes();
       expect(all, hasLength(2));
 
-      await repo.removeById('1');
-      all = await repo.getAll();
+      await repo.removeBikeById('1');
+      all = await repo.getAllBikes();
       expect(all, hasLength(1));
       expect(all.first.id, equals('2'));
     });
@@ -47,12 +47,12 @@ void main() {
     test('update replaces existing bike', () async {
       final repo = BikeRepository();
       final bike = Bike(id: 'u', name: 'Old', type: BikeType.other);
-      await repo.add(bike);
+      await repo.addBike(bike);
 
       final updated = Bike(id: 'u', name: 'New', type: BikeType.other);
-      await repo.update(updated);
+      await repo.updateBike(updated);
 
-      final all = await repo.getAll();
+      final all = await repo.getAllBikes();
       expect(all, hasLength(1));
       expect(all.first.name, equals('New'));
     });

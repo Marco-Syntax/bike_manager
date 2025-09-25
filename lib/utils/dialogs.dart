@@ -60,6 +60,17 @@ void showDeletedSnack(BuildContext context, String itemName) {
   );
 }
 
+void showAddedSnack(BuildContext context, String itemName) {
+  final l10n = AppLocalizations.of(context);
+  showAppSnack(
+    context,
+    l10n.addedSnack(itemName),
+    duration: const Duration(milliseconds: 2500),
+    type: ContentType.success,
+    title: l10n.addedTitle,
+  );
+}
+
 void showUpdatedSnack(BuildContext context, String fieldLabel) {
   final l10n = AppLocalizations.of(context);
   showAppSnack(

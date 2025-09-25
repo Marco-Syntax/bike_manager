@@ -28,6 +28,8 @@
   "deletedTitle": "Deleted",
   "updatedSnack": "{field} ",
   "updatedTitle": "Updated",
+  "addedSnack": "{name} was added.",
+  "addedTitle": "Success",
   "save": "Save",
   "bikeTypeMountainbike": "Mountain bike",
   "bikeTypeCitybike": "City bike",

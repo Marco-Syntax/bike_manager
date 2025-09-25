@@ -17,22 +17,22 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
       super([]);
 
   Future<void> loadBikes() async {
-    final bikes = await _repository.getAll();
+    final bikes = await _repository.getAllBikes();
     state = bikes;
   }
 
   Future<void> addBike(Bike bike) async {
-    await _repository.add(bike);
+    await _repository.addBike(bike);
     await loadBikes();
   }
 
   Future<void> removeBike(Bike bike) async {
-    await _repository.removeById(bike.id);
+    await _repository.removeBikeById(bike.id);
     await loadBikes();
   }
 
   Future<void> updateBike(Bike oldBike, Bike newBike) async {
-    await _repository.update(newBike);
+    await _repository.updateBike(newBike);
     await loadBikes();
   }
 

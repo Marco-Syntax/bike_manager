@@ -15,8 +15,8 @@ class DetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.read(bikeProvider.notifier);
-    final l10n = AppLocalizations.of(context);
     final bikes = ref.watch(bikeProvider);
+    final l10n = AppLocalizations.of(context);
     final currentBike = bikes.firstWhere(
       (b) => b.id == bike.id,
       orElse: () => bike,
