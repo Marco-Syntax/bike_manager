@@ -1,26 +1,27 @@
 import 'package:bike_manager/main.dart';
 import 'package:bike_manager/models/bike_type.dart';
 import 'package:flutter/material.dart';
+import 'package:bike_manager/widgets/bike_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   testWidgets('can add a bike via the form and see it in the list', (
     tester,
   ) async {
+    SharedPreferences.setMockInitialValues({});
+
     await tester.pumpWidget(const ProviderScope(child: BikeManagerApp()));
 
-    // Use a descendant context where Localizations are available (e.g., Scaffold)
     final ctx = tester.element(find.byType(Scaffold));
     final l10n = AppLocalizations.of(ctx);
 
-    // Initially, the placeholder should be visible and no list items present
-    expect(find.text(l10n.homePlaceholder), findsOneWidget);
-    expect(find.byType(ListTile), findsNothing);
+    expect(find.text(l10n.welcomeMessage), findsOneWidget);
+    expect(find.byType(BikeCard), findsNothing);
 
-    // Open the add-bike screen via FAB
-    await tester.tap(find.byType(FloatingActionButton));
+    await tester.tap(find.byIcon(Icons.add));
     await tester.pumpAndSettle();
 
     expect(find.text(l10n.addBike), findsOneWidget);
@@ -44,6 +45,6 @@ void main() {
     // Back on the list: placeholder gone, new bike visible
     expect(find.text(l10n.homePlaceholder), findsNothing);
     expect(find.text('Test Bike'), findsOneWidget);
-    expect(find.byType(ListTile), findsOneWidget);
+    expect(find.byType(BikeCard), findsOneWidget);
   });
 }
