@@ -1,69 +1,19 @@
 import 'package:bike_manager/models/bike_type.dart';
-import 'package:uuid/uuid.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Bike {
-  final String id;
-  final String name;
-  final BikeType type;
-  final String? manufacturer;
-  final DateTime? purchaseDate;
-  final double? purchasePrice;
+part 'bike.freezed.dart';
+part 'bike.g.dart';
 
-  Bike({
-    String? id,
-    required this.name,
-    required this.type,
-    this.manufacturer,
-    this.purchaseDate,
-    this.purchasePrice,
-  }) : id = id ?? const Uuid().v4();
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'type': type.toString(),
-      'manufacturer': manufacturer,
-      'purchaseDate': purchaseDate?.toIso8601String(),
-      'purchasePrice': purchasePrice,
-    };
-  }
-
-  factory Bike.fromJson(Map<String, dynamic> json) {
-    return Bike(
-      id: json['id'] as String?,
-      name: json['name'] as String,
-      type: BikeType.values.firstWhere(
-        (e) => e.toString() == json['type'],
-        orElse: () => BikeType.values.first,
-      ),
-      manufacturer: json['manufacturer'] as String?,
-      purchaseDate:
-          json['purchaseDate'] != null
-              ? DateTime.parse(json['purchaseDate'])
-              : null,
-      purchasePrice:
-          (json['purchasePrice'] != null)
-              ? (json['purchasePrice'] as num).toDouble()
-              : null,
-    );
-  }
-
-  Bike copyWith({
-    String? id,
-    String? name,
-    BikeType? type,
+@freezed
+class Bike with _$Bike {
+  factory Bike({
+    required String id,
+    required String name,
+    required BikeType type,
     String? manufacturer,
     DateTime? purchaseDate,
     double? purchasePrice,
-  }) {
-    return Bike(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      type: type ?? this.type,
-      manufacturer: manufacturer ?? this.manufacturer,
-      purchaseDate: purchaseDate ?? this.purchaseDate,
-      purchasePrice: purchasePrice ?? this.purchasePrice,
-    );
-  }
+  }) = _Bike;
+
+  factory Bike.fromJson(Map<String, dynamic> json) => _$BikeFromJson(json);
 }

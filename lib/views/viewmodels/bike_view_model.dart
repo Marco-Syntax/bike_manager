@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/models/bike_type.dart';
 import 'package:bike_manager/core/bike_repository.dart';
+import 'package:uuid/uuid.dart';
 
 final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
   (ref) =>
@@ -53,6 +54,7 @@ class BikeViewModel extends StateNotifier<List<Bike>> {
             : tryParsePrice(priceInput.trim());
 
     final bike = Bike(
+      id: const Uuid().v4(),
       name: name.trim(),
       type: type,
       manufacturer:
