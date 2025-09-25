@@ -1,6 +1,7 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:bike_manager/utils/app_colors.dart';
+
 import 'package:bike_manager/utils/button_styles.dart';
 import 'package:bike_manager/utils/form_styles.dart';
 
@@ -51,24 +52,44 @@ Future<bool> showConfirmDialog({
 
 void showDeletedSnack(BuildContext context, String itemName) {
   final l10n = AppLocalizations.of(context);
-  showAppSnack(context, l10n.deletedSnack(itemName));
+  showAppSnack(
+    context,
+    l10n.deletedSnack(itemName),
+    type: ContentType.success,
+    title: l10n.deletedTitle,
+  );
 }
 
 void showUpdatedSnack(BuildContext context, String fieldLabel) {
   final l10n = AppLocalizations.of(context);
-  showAppSnack(context, l10n.updatedSnack(fieldLabel));
+  showAppSnack(
+    context,
+    fieldLabel,
+    type: ContentType.success,
+    title: l10n.updatedTitle,
+  );
 }
 
 void showAppSnack(
   BuildContext context,
   String message, {
-  Duration duration = const Duration(seconds: 3),
+  Duration duration = const Duration(milliseconds: 1500),
+  ContentType type = ContentType.success,
+  String? title,
 }) {
+  final defaultTitle = title ?? '';
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message, style: const TextStyle(color: Colors.white)),
-      backgroundColor: AppColors.darkGreen,
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
       duration: duration,
+      content: AwesomeSnackbarContent(
+        title: defaultTitle,
+        message: message,
+        contentType: type,
+      ),
     ),
   );
 }

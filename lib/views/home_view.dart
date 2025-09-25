@@ -151,7 +151,7 @@ class _AddBikePlaceholder extends StatelessWidget {
             Text(
               l10n.welcomeMessage,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.grey[800],
+                color: AppColors.darkGreen,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -160,7 +160,7 @@ class _AddBikePlaceholder extends StatelessWidget {
             Text(
               l10n.welcomeSubtitle,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey[600],
+                color: AppColors.mutedGreen,
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
@@ -175,7 +175,7 @@ class _AddBikePlaceholder extends StatelessWidget {
                   width: 140,
                   height: 140,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.surface,
                     border: Border.all(
                       color: AppColors.orange,
                       style: BorderStyle.solid,
@@ -204,7 +204,7 @@ class _AddBikePlaceholder extends StatelessWidget {
             Text(
               l10n.addBike,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Colors.grey[700],
+                color: AppColors.mutedGreen,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,

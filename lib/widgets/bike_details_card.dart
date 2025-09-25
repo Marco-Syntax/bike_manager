@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bike_manager/widgets/bike_type_avatar.dart';
+import 'package:bike_manager/utils/app_colors.dart';
 import 'package:bike_manager/widgets/info_chip.dart';
 import 'package:bike_manager/utils/dialogs.dart';
 
@@ -19,10 +20,26 @@ class BikeDetailsCard extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.cardGradientStart, AppColors.cardGradientEnd],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.orange.withAlpha((0.06 * 255).round()),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.mutedGreen.withAlpha((0.08 * 255).round()),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

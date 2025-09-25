@@ -1,8 +1,7 @@
 name: bike_manager
 description: "A new Flutter project."
 
-publish_to: 'none'
-
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -19,8 +18,10 @@ dependencies:
   flutter_riverpod: ^2.5.1
 
   cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.4.0
   intl: ^0.19.0
   shared_preferences: ^2.5.3
+  awesome_snackbar_content: ^0.1.6
   uuid: ^4.5.1
 
 dev_dependencies:
@@ -32,7 +33,6 @@ dev_dependencies:
 
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.10.0
-
 
 flutter:
   uses-material-design: true
