@@ -14,9 +14,6 @@ void main() {
 
     final ctx = tester.element(find.byType(Scaffold));
     final l10n = AppLocalizations.of(ctx);
-
-    // The app's title is not rendered as a visible Text widget in the home view.
-    // Check that the welcome message placeholder is visible instead.
     expect(find.text(l10n.welcomeMessage), findsOneWidget);
     expect(find.byType(BikeCard), findsNothing);
   });

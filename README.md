@@ -2,40 +2,44 @@
 
 ## Projektbeschreibung
 
-Bike Manager ist eine Flutter-Anwendung zur Verwaltung von Fahrrädern. Sie unterstützt die grundlegenden CRUD operations (Create, Read, Update, Delete) für Fahrraddaten. Die Persistenz erfolgt lokal über SharedPreferences. Die App bietet Mehrsprachigkeit mittels ARB-Dateien und nutzt State-Management mit Riverpod.
+Bike Manager ist eine moderne Flutter-Anwendung zur effizienten Verwaltung von Fahrrädern. Die App bietet umfassende CRUD-Funktionalitäten (Create, Read, Update, Delete) mit lokaler Persistenz über SharedPreferences. Durch die Unterstützung von Mehrsprachigkeit mittels ARB-Dateien und die Nutzung von Riverpod für das State-Management sowie Dependency Injection gewährleisten Bike Manager eine benutzerfreundliche und flexible Bedienung.
 
 ## Architektur & Struktur
 
-Die Anwendung folgt dem MVVM-Architekturmuster. Die Datenhaltung und der Zugriff auf Persistenz werden durch das Repository Pattern gekapselt, was eine klare Trennung zwischen UI und Datenzugriff ermöglicht. Riverpod übernimmt das State-Management und ermöglicht eine reaktive wie testbare Struktur.
+Die Anwendung basiert auf dem MVVM-Architekturmuster (Model-View-ViewModel) und setzt konsequent auf das Repository Pattern, um eine klare Trennung zwischen UI, Geschäftslogik und Datenzugriff zu gewährleisten. Dies fördert Wartbarkeit, Testbarkeit und Erweiterbarkeit. Die Dependency Injection erfolgt über Riverpod-Provider, was die modulare Integration und Wiederverwendbarkeit von Komponenten unterstützt. Clean-Code-Prinzipien und SOLID-Designrichtlinien bilden die Grundlage für eine saubere und verständliche Codebasis.
 
 **Projektstruktur:**
 
-- `lib/` – Anwendungscode
+- `lib/` – Hauptanwendungscode
   - `main.dart` – Einstiegspunkt
-  - `views/` – UI-Screens
-  - `widgets/` – Wiederverwendbare Komponenten
-  - `core/` – Repository und Storage-Logik
+  - `views/` – UI-Komponenten und Screens
+  - `widgets/` – Wiederverwendbare UI-Elemente
+  - `core/` – Repository- und Storage-Implementierungen
   - `models/` – Datenmodelle
-  - `utils/` – Hilfsfunktionen
-- `assets/texts/` – ARB-Lokalisierungsdateien
-- `test/` – Testfälle
+  - `utils/` – Hilfsfunktionen und Utilities
+- `assets/texts/` – Lokalisierungsdateien im ARB-Format
+- `test/` – Unit- und Integrationstests
 
 ## Technologien & Tools
 
-- Flutter SDK (empfohlen: Version 3.x oder neuer)
+- Flutter SDK (empfohlen Version 3.x oder höher)
 - Dart SDK (in Flutter enthalten)
-- Riverpod für State-Management
-- SharedPreferences für lokale Persistenz
-- ARB-Dateien für Lokalisierung
-- Build Runner für Code-Generierung (optional)
-- Android Studio und/oder Xcode für native Builds
+- Riverpod für State-Management und Dependency Injection
+- SharedPreferences für lokale Datenpersistenz
+- ARB-Dateien für mehrsprachige Lokalisierung
+- Build Runner für optionale Code-Generierung
+- Android Studio und Xcode für native Builds
 
 ## Besonderheiten
 
-- MVVM-Architektur mit konsequenter Trennung von UI und Datenzugriff
-- Repository Pattern für verbesserte Testbarkeit und Wartbarkeit
-- Lokalisierung (L10n) mit ARB-Dateien, automatische Generierung der Übersetzungen
-- Tests mit Mocking-Unterstützung
+- Strikte MVVM-Architektur mit klarer Trennung von UI und Datenzugriff
+- Repository Pattern zur Verbesserung von Testbarkeit und Wartbarkeit
+- In-Memory Caching zur Performance-Optimierung
+- Dependency Injection über Riverpod für flexible Komponentenintegration
+- Saubere Projektstruktur nach Best Practices und Clean-Code-Richtlinien
+- Automatisierte Lokalisierung mit ARB-Dateien und generierten Übersetzungen
+- Umfangreiche Tests mit Mocking zur Sicherstellung der Codequalität
+- Erweiterbarkeit für alternative Persistenzlösungen wie Hive, Drift oder REST-APIs
 
 ## Build & Deployment
 
@@ -43,33 +47,55 @@ Die Anwendung folgt dem MVVM-Architekturmuster. Die Datenhaltung und der Zugriff
 
    ```bash
    flutter pub get
-
    ```
-  
-2. (Optional) Code-Generierung:
+
+2. (Optional) Code-Generierung ausführen:
 
    ```bash
    flutter pub run build_runner build --delete-conflicting-outputs
    ```
 
-3. Lokalisierung:
-   Die generierten L10n-Dateien befinden sich in `.dart_tool/flutter_gen/gen_l10n` und werden beim Build automatisch erzeugt.
+3. Lokalisierung:  
+   Die generierten L10n-Dateien befinden sich im Verzeichnis `.dart_tool/flutter_gen/gen_l10n` und werden automatisch beim Build erstellt.
 
 **Wichtige Kommandos:**
 
-- App starten (Debug):  
-  `flutter run`
-- Android Release-Build:  
-  `flutter build apk --release`
-- iOS Release-Build:  
-  `flutter build ios --release`
-- Dart-Code formatieren:  
-  `dart format .`
-- Projekt bereinigen:  
-  `flutter clean`
-- Tests ausführen:  
-  `flutter test`
+- App starten (Debug):
+
+  ```bash
+  flutter run
+  ```
+
+- Android Release-Build:
+
+  ```bash
+  flutter build apk --release
+  ```
+
+- iOS Release-Build:
+
+  ```bash
+  flutter build ios --release
+  ```
+
+- Dart-Code formatieren:
+
+  ```bash
+  dart format .
+  ```
+
+- Projekt bereinigen:
+
+  ```bash
+  flutter clean
+  ```
+
+- Tests ausführen:
+
+  ```bash
+  flutter test
+  ```
 
 ## Zusammenfassung
 
-Bike Manager ist eine modular aufgebaute Flutter-App zur effizienten Verwaltung von Fahrrädern mit Fokus auf Wartbarkeit, Testbarkeit und Mehrsprachigkeit. Die Anwendung nutzt etablierte Patterns und Technologien, um eine robuste Grundlage für Weiterentwicklung und Anpassung zu bieten.
+Bike Manager ist eine modular aufgebaute Flutter-Anwendung zur nachhaltigen und effizienten Verwaltung von Fahrrädern. Durch die konsequente Umsetzung von MVVM, Repository Pattern, Dependency Injection via Riverpod sowie Clean-Code-Prinzipien bietet die App eine robuste, wartbare und erweiterbare Basis. Die Integration von Mehrsprachigkeit und umfangreichen Tests unterstützt eine hohe Qualität und Benutzerfreundlichkeit. Das Projekt ist so konzipiert, dass zukünftige Erweiterungen, etwa durch alternative Persistenzmethoden oder API-Anbindungen, problemlos möglich sind.
