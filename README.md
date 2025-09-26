@@ -1,89 +1,76 @@
-# bike_manager
 
-Bike Manager ist eine Flutter-App zur Verwaltung von Fahrrädern (CRUD). Persistenz erfolgt über SharedPreferences, State-Management mit Riverpod und Lokalisierung mittels ARB-Dateien (L10n).
+# Bike Manager
 
-## Features
+## Projektbeschreibung
 
-- CRUD-Funktionalität zur Verwaltung von Fahrrädern  
-- Persistente Speicherung mit SharedPreferences  
-- Lokalisierung über ARB-Dateien  
-- State-Management mit Riverpod  
-- Umfangreiche Tests mit Mocking-Unterstützung  
+Bike Manager ist eine Flutter-Anwendung zur Verwaltung von Fahrrädern. Sie unterstützt die grundlegenden CRUD-Operationen (Erstellen, Lesen, Aktualisieren, Löschen) für Fahrraddaten. Die Persistenz erfolgt lokal über SharedPreferences. Die App bietet Mehrsprachigkeit mittels ARB-Dateien und nutzt State-Management mit Riverpod.
 
-## Voraussetzungen
+## Architektur & Struktur
 
-- Flutter SDK (stabile Version, z. B. 3.x oder neuer)  
-- Dart SDK (in Flutter enthalten)  
-- Optional: Android Studio und/oder Xcode für native Builds und Emulatoren  
+Die Anwendung folgt dem MVVM-Architekturmuster. Die Datenhaltung und der Zugriff auf Persistenz werden durch das Repository Pattern gekapselt, was eine klare Trennung zwischen UI und Datenzugriff ermöglicht. Riverpod übernimmt das State-Management und ermöglicht eine reaktive wie testbare Struktur.
 
-## Installation & Setup
+**Projektstruktur:**
 
-1. Abhängigkeiten installieren
+- `lib/` – Anwendungscode
+  - `main.dart` – Einstiegspunkt
+  - `views/` – UI-Screens
+  - `widgets/` – Wiederverwendbare Komponenten
+  - `core/` – Repository und Storage-Logik
+  - `models/` – Datenmodelle
+  - `utils/` – Hilfsfunktionen
+- `assets/texts/` – ARB-Lokalisierungsdateien
+- `test/` – Testfälle
 
-```bash
-flutter pub get
-```
+## Technologien & Tools
 
-2. (Optional) Code-Generatoren ausführen
+- Flutter SDK (empfohlen: Version 3.x oder neuer)
+- Dart SDK (in Flutter enthalten)
+- Riverpod für State-Management
+- SharedPreferences für lokale Persistenz
+- ARB-Dateien für Lokalisierung
+- Build Runner für Code-Generierung (optional)
+- Android Studio und/oder Xcode für native Builds
 
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+## Besonderheiten
 
-3. Lokalisierung
+- MVVM-Architektur mit konsequenter Trennung von UI und Datenzugriff
+- Repository Pattern für verbesserte Testbarkeit und Wartbarkeit
+- Lokalisierung (L10n) mit ARB-Dateien, automatische Generierung der Übersetzungen
+- Tests mit Mocking-Unterstützung
 
-Die generierten L10n-Dateien liegen unter `.dart_tool/flutter_gen/gen_l10n` und werden normalerweise automatisch beim Build erzeugt.
+## Build & Deployment
 
-## Nützliche Befehle
+1. Abhängigkeiten installieren:
 
-- App starten (Debug)
+   ```bash
+   flutter pub get
 
-```bash
-flutter run
-```
+   ```
+  
+2. (Optional) Code-Generierung:
 
-- Android Release-Build
+   ```bash
+   flutter pub run build_runner build --delete-conflicting-outputs
+   ```
 
-```bash
-flutter build apk --release
-```
+3. Lokalisierung:
+   Die generierten L10n-Dateien befinden sich in `.dart_tool/flutter_gen/gen_l10n` und werden beim Build automatisch erzeugt.
 
-- iOS Release-Build
+**Wichtige Kommandos:**
 
-```bash
-flutter build ios --release
-```
+- App starten (Debug):  
+  `flutter run`
+- Android Release-Build:  
+  `flutter build apk --release`
+- iOS Release-Build:  
+  `flutter build ios --release`
+- Dart-Code formatieren:  
+  `dart format .`
+- Projekt bereinigen:  
+  `flutter clean`
+- Tests ausführen:  
+  `flutter test`
 
-- Dart-Code formatieren
+## Zusammenfassung
 
-```bash
-dart format .
-```
-
-- Projekt bereinigen
-
-```bash
-flutter clean
-```
-
-- Tests ausführen
-
-```bash
-flutter test
-```
-
-## Projektstruktur
-
-- `lib/` – App-Code  
-  - `main.dart`  
-  - `views/` – Screens  
-  - `widgets/` – Wiederverwendbare Widgets  
-  - `core/` – Repository & Storage  
-  - `models/` – Datenmodelle  
-  - `utils/` – Hilfsfunktionen  
-- `assets/texts/` – ARB-Lokalisierungen  
-- `test/` – Tests  
-
-## Architekturprinzipien
-
-Die App folgt dem MVVM-Pattern mit Riverpod als State-Management. Das Repository Pattern sorgt für eine klare Trennung zwischen Datenzugriff und UI-Logik, was Wartbarkeit und Testbarkeit verbessert.
+Bike Manager ist eine modular aufgebaute Flutter-App zur effizienten Verwaltung von Fahrrädern mit Fokus auf Wartbarkeit, Testbarkeit und Mehrsprachigkeit. Die Anwendung nutzt etablierte Patterns und Technologien, um eine robuste Grundlage für Weiterentwicklung und Anpassung zu bieten.
