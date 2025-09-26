@@ -87,7 +87,6 @@ class AppColors {
     }
   }
 
-  // single color fallback per bike type
   static Color colorForBikeType(BikeType type) {
     switch (type) {
       case BikeType.citybike:

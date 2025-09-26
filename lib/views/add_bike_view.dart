@@ -7,6 +7,7 @@ import 'package:bike_manager/utils/form_styles.dart';
 import 'package:bike_manager/utils/button_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bike_manager/utils/dialogs.dart';
+import 'package:bike_manager/widgets/bike_type_dropdown.dart';
 
 class AddBikeView extends ConsumerStatefulWidget {
   const AddBikeView({super.key});
@@ -52,7 +53,6 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.addBike)),
       body: Form(
@@ -73,21 +73,9 @@ class _AddBikeView extends ConsumerState<AddBikeView> {
                           : null,
             ),
             const SizedBox(height: 12),
-            DropdownButtonFormField<BikeType>(
-              value: _type,
-              decoration: FormStyles.filled(context, label: l10n.type),
-              style: FormStyles.input(context),
-              dropdownColor: theme.colorScheme.surface,
-              menuMaxHeight: 300,
-              items:
-                  BikeType.values
-                      .map(
-                        (t) => DropdownMenuItem(
-                          value: t,
-                          child: Text(formatBikeType(context, t)),
-                        ),
-                      )
-                      .toList(),
+            BikeTypeDropdown(
+              initialValue: _type,
+              label: l10n.type,
               onChanged: (v) => setState(() => _type = v),
               validator: (v) => v == null ? l10n.selectType : null,
             ),
