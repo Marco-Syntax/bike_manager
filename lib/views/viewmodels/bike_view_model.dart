@@ -12,8 +12,8 @@ final bikeProvider = StateNotifierProvider<BikeViewModel, List<Bike>>(
 class BikeViewModel extends StateNotifier<List<Bike>> {
   final BikeRepository _repository;
 
-  BikeViewModel({BikeRepository? repository})
-    : _repository = repository ?? BikeRepository(),
+  BikeViewModel({required BikeRepository repository})
+    : _repository = repository,
       super([]);
 
   Future<void> loadBikes() async {

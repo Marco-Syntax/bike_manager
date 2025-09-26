@@ -1,4 +1,5 @@
 import 'package:bike_manager/core/bike_repository.dart';
+import 'package:bike_manager/core/bike_storage.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/models/bike_type.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +14,7 @@ void main() {
     });
 
     test('add and getAll', () async {
-      final repo = BikeRepository();
+      final repo = BikeRepository(BikeStorage());
 
       final bike = Bike(
         id: 'a',
@@ -28,7 +29,7 @@ void main() {
     });
 
     test('removeById removes the bike', () async {
-      final repo = BikeRepository();
+      final repo = BikeRepository(BikeStorage());
       final bike1 = Bike(id: '1', name: 'One', type: BikeType.citybike);
       final bike2 = Bike(id: '2', name: 'Two', type: BikeType.gravel);
 
@@ -45,7 +46,7 @@ void main() {
     });
 
     test('update replaces existing bike', () async {
-      final repo = BikeRepository();
+      final repo = BikeRepository(BikeStorage());
       final bike = Bike(id: 'u', name: 'Old', type: BikeType.other);
       await repo.addBike(bike);
 

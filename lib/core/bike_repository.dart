@@ -2,12 +2,16 @@ import 'package:bike_manager/core/bike_storage.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final bikeStorageProvider = Provider<IBikeStorage>((ref) => BikeStorage());
+
 final bikeRepositoryProvider = Provider<BikeRepository>(
-  (ref) => BikeRepository(),
+  (ref) => BikeRepository(ref.read(bikeStorageProvider)),
 );
 
 class BikeRepository {
-  final BikeStorage _storage = BikeStorage();
+  final IBikeStorage _storage;
+
+  BikeRepository(this._storage);
 
   Future<List<Bike>> getAllBikes() async {
     return await _storage.loadBikes();
