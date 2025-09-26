@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bike_manager/models/bike_type.dart';
+import 'package:bike_manager/utils/app_colors.dart';
 
 class InfoChip extends StatelessWidget {
   const InfoChip({
@@ -6,6 +8,7 @@ class InfoChip extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    this.bikeType,
     this.iconSize = 14,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     this.spacing = 6,
@@ -23,6 +26,7 @@ class InfoChip extends StatelessWidget {
   final EdgeInsets padding;
   final double spacing;
   final Color? backgroundColor;
+  final BikeType? bikeType;
   final Color? foregroundColor;
   final TextStyle? textStyle;
   final BorderRadius? borderRadius;
@@ -40,7 +44,7 @@ class InfoChip extends StatelessWidget {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: bg,
+        color: bikeType != null ? AppColors.colorForBikeType(bikeType!) : bg,
         borderRadius: borderRadius ?? BorderRadius.circular(999),
       ),
       child: Row(

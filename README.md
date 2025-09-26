@@ -1,9 +1,8 @@
-
 # Bike Manager
 
 ## Projektbeschreibung
 
-Bike Manager ist eine Flutter-Anwendung zur Verwaltung von Fahrrädern. Sie unterstützt die grundlegenden CRUD-Operationen (Erstellen, Lesen, Aktualisieren, Löschen) für Fahrraddaten. Die Persistenz erfolgt lokal über SharedPreferences. Die App bietet Mehrsprachigkeit mittels ARB-Dateien und nutzt State-Management mit Riverpod.
+Bike Manager ist eine Flutter-Anwendung zur Verwaltung von Fahrrädern. Sie unterstützt die grundlegenden CRUD operations (Create, Read, Update, Delete) für Fahrraddaten. Die Persistenz erfolgt lokal über SharedPreferences. Die App bietet Mehrsprachigkeit mittels ARB-Dateien und nutzt State-Management mit Riverpod.
 
 ## Architektur & Struktur
 

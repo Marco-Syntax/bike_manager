@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
 import 'package:bike_manager/models/bike.dart';
@@ -19,76 +20,91 @@ class HomeView extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      body: Column(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.28,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/bg.png'),
-                  fit: BoxFit.cover,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final headerHeight = min(constraints.maxHeight * 0.28, 260.0);
+
+          return Column(
+            children: [
+              SafeArea(
+                bottom: false,
+                child: Container(
+                  width: double.infinity,
+                  height: headerHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32),
+                    ),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/bg.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child:
-                bikes.isEmpty
-                    ? _AddBikePlaceholder(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const AddBikeView(),
-                          ),
-                        );
-                      },
-                    )
-                    : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
-                      itemCount: bikes.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
-                      itemBuilder: (context, index) {
-                        final Bike bike = bikes[index];
-                        return Dismissible(
-                          key: ValueKey(bike.id),
-                          direction: DismissDirection.endToStart,
-                          background: const _DeleteBackground(),
-                          confirmDismiss: (_) async {
-                            final confirmed = await confirmDeleteDialog(
-                              context,
-                              bike.name,
-                            );
-                            if (confirmed) {
-                              viewModel.removeBike(bike);
-                              if (context.mounted) {
-                                showDeletedSnack(context, bike.name);
-                              }
-                            }
-                            return confirmed;
-                          },
-                          onDismissed: (_) {},
-                          child: BikeCard(
-                            bike: bike,
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => DetailsView(bike: bike),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
+              if (bikes.isEmpty)
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight - headerHeight,
+                      ),
+                      child: _AddBikePlaceholder(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const AddBikeView(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-          ),
-        ],
+                  ),
+                )
+              else
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
+                    itemCount: bikes.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final Bike bike = bikes[index];
+                      return Dismissible(
+                        key: ValueKey(bike.id),
+                        direction: DismissDirection.endToStart,
+                        background: const _DeleteBackground(),
+                        confirmDismiss: (_) async {
+                          final confirmed = await confirmDeleteDialog(
+                            context,
+                            bike.name,
+                          );
+                          if (confirmed) {
+                            viewModel.removeBike(bike);
+                            if (context.mounted) {
+                              showDeletedSnack(context, bike.name);
+                            }
+                          }
+                          return confirmed;
+                        },
+                        onDismissed: (_) {},
+                        child: BikeCard(
+                          bike: bike,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DetailsView(bike: bike),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+            ],
+          );
+        },
       ),
       floatingActionButton:
           bikes.isNotEmpty

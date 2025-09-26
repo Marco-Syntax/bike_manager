@@ -47,32 +47,40 @@ class DetailsView extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.28,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/bg.png'),
-                  fit: BoxFit.cover,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final headerHeight =
+              constraints.maxHeight != double.infinity
+                  ? (constraints.maxHeight * 0.28).clamp(80.0, 260.0)
+                  : MediaQuery.of(context).size.height * 0.28;
+          return Column(
+            children: [
+              SafeArea(
+                bottom: false,
+                child: Container(
+                  width: double.infinity,
+                  height: headerHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32),
+                    ),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/bg.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [BikeDetailsCard(bike: currentBike)],
-            ),
-          ),
-        ],
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [BikeDetailsCard(bike: currentBike)],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -23,19 +23,15 @@ class BikeDetailsCard extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.cardGradientStart, AppColors.cardGradientEnd],
-        ),
+        gradient: AppColors.gradientForBikeType(bike.type),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.orange.withAlpha((0.06 * 255).round()),
+          color: AppColors.orange.withAlpha((0.04 * 255).round()),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.mutedGreen.withAlpha((0.08 * 255).round()),
-            blurRadius: 18,
+            color: AppColors.mutedGreen.withAlpha((0.06 * 255).round()),
+            blurRadius: 16,
             offset: const Offset(0, 10),
           ),
         ],

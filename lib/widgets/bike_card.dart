@@ -31,9 +31,7 @@ class _BikeCardState extends State<BikeCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     final double scale = _pressed ? 0.987 : 1.0;
-    final double shadowAlpha = _pressed ? 0.16 : 0.10;
 
     Widget card = AnimatedScale(
       scale: scale,
@@ -43,11 +41,7 @@ class _BikeCardState extends State<BikeCard> {
         duration: const Duration(milliseconds: 180),
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.cardGradientStart, AppColors.cardGradientEnd],
-          ),
+          gradient: AppColors.gradientForBikeType(widget.bike.type),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: AppColors.orange.withAlpha((0.06 * 255).round()),
@@ -55,9 +49,9 @@ class _BikeCardState extends State<BikeCard> {
           boxShadow: [
             BoxShadow(
               color: AppColors.mutedGreen.withAlpha(
-                (shadowAlpha * 255).round(),
+                ((_pressed ? 0.16 : 0.06) * 255).round(),
               ),
-              blurRadius: _pressed ? 22 : 16,
+              blurRadius: _pressed ? 20 : 16,
               offset: const Offset(0, 10),
             ),
           ],
