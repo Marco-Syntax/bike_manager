@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bike_manager/models/bike.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/views/viewmodels/bike_view_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/l10n/app_localizations.dart';
 import 'package:bike_manager/utils/dialogs.dart';
 import 'package:bike_manager/widgets/bike_details_card.dart';
 import 'package:bike_manager/utils/app_colors.dart';

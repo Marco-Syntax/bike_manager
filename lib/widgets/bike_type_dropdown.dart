@@ -1,7 +1,7 @@
 import 'package:bike_manager/models/bike_type.dart';
 import 'package:bike_manager/widgets/bike_type_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/l10n/app_localizations.dart';
 import 'package:bike_manager/utils/formatting.dart';
 
 class BikeTypeDropdown extends FormField<BikeType> {

@@ -6,7 +6,7 @@ import 'package:bike_manager/models/bike.dart';
 import 'package:bike_manager/views/details_view.dart';
 import 'package:bike_manager/widgets/bike_card.dart';
 import 'package:bike_manager/views/add_bike_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/l10n/app_localizations.dart';
 import 'package:bike_manager/utils/dialogs.dart';
 import 'package:bike_manager/utils/app_colors.dart';
 import 'package:bike_manager/widgets/add_bike_placeholder.dart';

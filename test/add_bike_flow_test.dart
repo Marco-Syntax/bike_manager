@@ -5,7 +5,7 @@ import 'package:bike_manager/widgets/bike_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/l10n/app_localizations.dart';
 
 void main() {
   testWidgets('can add a bike via the form and see it in the list', (

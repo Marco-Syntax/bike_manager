@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bike_manager/utils/form_styles.dart';
 import 'package:bike_manager/utils/button_styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bike_manager/l10n/app_localizations.dart';
 import 'package:bike_manager/utils/dialogs.dart';
 import 'package:bike_manager/widgets/bike_type_dropdown.dart';
 

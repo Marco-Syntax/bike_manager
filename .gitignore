@@ -38,6 +38,9 @@ migrate_working_dir/
 coverage/
 lib/generated_plugin_registrant.dart
 
+# FVM
+.fvm/
+
 # Symbolication related
 app.*.symbols
 
